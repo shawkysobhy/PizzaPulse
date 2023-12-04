@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Form, redirect, useActionData } from 'react-router-dom';
 import { createOrder } from '../../services/apiRestaurant';
 import { CustomButton } from '../../ui/CustomButton';
@@ -38,27 +37,32 @@ function CreateOrder() {
   const cart = fakeCart;
 
   return (
-    <div className="mt-4 max-w-3xl">
-      <h2 className="text-3xl font-semibold">Ready to order? Let's go!</h2>
+    <div className="mx-4  mt-4 max-w-2xl">
+      <h2 className="mb-4 text-2xl font-semibold">Ready to order? Let's go!</h2>
       <Form method="post">
-        <div>
-          <label>First Name</label>
-          <input type="text" name="customer" required className="input" />
+        <div className="mb-4 flex flex-col  gap-2 sm:flex-row sm:items-center">
+          <label className="sm:basis-40">First Name</label>
+          <input type="text" name="customer" required className="input grow" />
         </div>
-        <div>
-          <label>Phone number</label>
-          <div>
-            <input type="tel" name="phone" required className="input" />
-          </div>
-          {actionCreateOrder?.phone}
-        </div>
-        <div>
-          <label>Address</label>
-          <div>
-            <input type="text" name="address" required className="input" />
+        <div className="mb-4 flex flex-col  gap-2 sm:flex-row sm:items-center">
+          <label className="sm:basis-40">Phone number</label>
+          <div className="grow">
+            <input type="tel" name="phone" required className="input w-full" />
+            <div className='m-2 px-2 bg-red-300 rounded-lg text-red-500' >{actionCreateOrder?.phone}</div>
           </div>
         </div>
-        <div>
+        <div className="mb-4 flex flex-col  gap-2 sm:flex-row sm:items-center ">
+          <label className="sm:basis-40">Address</label>
+          <div className="grow">
+            <input
+              type="text"
+              name="address"
+              required
+              className="input w-full"
+            />
+          </div>
+        </div>
+        <div className="mb-4 flex flex-row items-center gap-4">
           <input
             type="checkbox"
             name="priority"
@@ -68,7 +72,9 @@ function CreateOrder() {
             // onChange={(e) => setWithPriority(e.target.checked)}
           />
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <label htmlFor="priority">Want to yo give your order priority?</label>
+          <label htmlFor="priority" className="text-lg">
+            Want to yo give your order priority?
+          </label>
         </div>
 
         <div>
