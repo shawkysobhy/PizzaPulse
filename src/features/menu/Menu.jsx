@@ -4,7 +4,7 @@ import MenuItem from './MenuItem';
 function Menu() {
 	const menuList = useLoaderData();
 	return (
-		<ul>
+		<ul className='flex flex-col justify-stretch mx-4'>
 			{menuList.map((pizza) => (
 				<MenuItem pizza={pizza} key={pizza.id} />
 			))}
