@@ -1,16 +1,20 @@
 import { Link } from 'react-router-dom';
-
+import { getTotalCartNumber, getTotalCartPrice } from './cartSlice';
+import { useSelector } from 'react-redux';
 function CartOverview() {
+  const totalPizzaNum = useSelector((state) => getTotalCartNumber(state));
+  const totalCartPrice = useSelector((state) => getTotalCartPrice(state));
+  if (!totalPizzaNum) return null;
   return (
-    <div className="bg-stone-800 px-4 py-4 uppercase text-sm md:text-base   text-stone-300 flex items-center justify-between">
-      <p className=" font-semibold space-x-2 md:space-x-6">
+    <div className="flex items-center justify-between bg-stone-800 px-4 py-4   text-sm uppercase text-stone-300 md:text-base">
+      <p className=" space-x-2 font-semibold md:space-x-6">
         <Link to="/menu" />
-        <span>23 pizzas </span>
-        <span>$23.45</span>
+        <span>{totalPizzaNum} pizzas </span>
+        <span>${totalCartPrice}</span>
       </p>
-      <a href="/cart" className=" font-semibold ">
+      <Link to="/cart" className=" font-semibold ">
         Open cart &rarr;
-      </a>
+      </Link>
     </div>
   );
 }

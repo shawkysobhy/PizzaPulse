@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 export const CustomButton = ({
   onClick,
   children,
+  customStyle,
   isdisabled,
   to,
   type = 'primary',
@@ -17,10 +18,18 @@ export const CustomButton = ({
       
   };
   if(to){
-    return <Link to={to} className={styles[type]}>{children}</Link>
+    return (
+      <Link to={to} className={`${styles[type]} ${customStyle}`}>
+        {children}
+      </Link>
+    );
   }
   return (
-    <button disabled={isdisabled} onClick={onClick} className={styles[type]}>
+    <button
+      disabled={isdisabled}
+      onClick={onClick}
+      className={`${styles[type]} ${customStyle}`}
+    >
       {children}
     </button>
   );

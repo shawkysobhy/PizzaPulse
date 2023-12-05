@@ -1,8 +1,10 @@
-import { formatCurrency } from "../../utils/helpers";
-import {CustomButton} from '../../ui/CustomButton'
+import { formatCurrency } from '../../utils/helpers';
+import  UpdateItemQuantity  from './UpdateItemQuantity';
+import { useSelector } from 'react-redux';
+import { getPizzaQuantityById } from './cartSlice';
 function CartItem({ item }) {
   const { pizzaId, name, quantity, totalPrice } = item;
-
+  const pizzaQuantity=useSelector(getPizzaQuantityById(pizzaId))
   return (
     <li className="flex items-center justify-between py-4">
       <p>
@@ -10,7 +12,7 @@ function CartItem({ item }) {
       </p>
       <div className="flex items-center gap-4">
         <p className="font-semibold">{formatCurrency(totalPrice)}</p>
-        <CustomButton type="small">Delete</CustomButton>
+        <UpdateItemQuantity id={pizzaId} pizzaQuantity={pizzaQuantity} />
       </div>
     </li>
   );
