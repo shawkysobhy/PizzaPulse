@@ -17,8 +17,8 @@ Welcome to **PizzaPulse**, your go-to web app for ordering delicious pizzas with
 - Experience the excitement of tracking your order in real-time.
 - Stay updated on the status of your order from preparation to delivery.
 
-![Pizza Menu]("./images/screenshot1.png")
-![Order Cart]("./images/screenshot2.png")
+![Pizza Menu]("/images/screenshot1.png")
+![Order Cart]("/images/screenshot2.png")
 
 ## Technologies Used
 
