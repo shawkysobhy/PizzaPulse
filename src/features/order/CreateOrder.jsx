@@ -5,6 +5,7 @@ import { CustomButton } from '../../ui/CustomButton';
 import { formatCurrency } from '../../utils/helpers';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAdress } from '../user/userSlice';
+import ErrorMessage from './ErrorMessage';
 import store from '../../store';
 import { clearCart, getCart, getTotalCartPrice } from '../cart/cartSlice';
 const isValidPhone = (str) =>
@@ -18,9 +19,10 @@ function CreateOrder() {
   // const address=useSelector(state=>state.user.user.address)
   const actionCreateOrder = useActionData();
   const [withPriority, setWithPriority] = useState(false);
-  const { userName, address, status, position } = useSelector(
+  const { userName, address, position, error:errorAdress } = useSelector(
     (state) => state.user,
   );
+  console.log(errorAdress);
   const totalCartPrice = useSelector(getTotalCartPrice);
   const priorityCost = totalCartPrice * 0.2;
   const totalPrice = !withPriority
@@ -47,9 +49,9 @@ function CreateOrder() {
           <label className="sm:basis-40">Phone number</label>
           <div className="grow">
             <input type="tel" name="phone" required className="input w-full" />
-            <div className="m-2 rounded-lg bg-red-300 px-2 text-red-500">
-              {actionCreateOrder?.phone}
-            </div>
+            {actionCreateOrder?.phone && (
+              <ErrorMessage error={actionCreateOrder?.phone} />
+            )}
           </div>
         </div>
         <div className="mb-4 flex flex-col  gap-2 sm:flex-row sm:items-center ">
@@ -75,6 +77,7 @@ function CreateOrder() {
             )}
           </div>
         </div>
+        {/* {errorAdress && <ErrorMessage error={errorAdress} />} */}
         <div className="mb-4 flex flex-row items-center gap-4">
           <input
             type="checkbox"
@@ -85,6 +88,16 @@ function CreateOrder() {
             onChange={(e) => setWithPriority(e.target.checked)}
           />
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+          <input
+            type="hidden"
+            name="position"
+            value={
+              position.longitude && position.latitude
+                ? `${position.latitude},${position.longitude}`
+                : ''
+            }
+          />
+
           <label htmlFor="priority" className="text-lg">
             Want to yo give your order priority?
           </label>
@@ -106,14 +119,15 @@ export const action = async ({ request }) => {
   const order = {
     ...data,
     cart: JSON.parse(data.cart),
-    priority: data.priority === 'on',
+    priority: data.priority === 'true',
   };
   const errors = {};
   if (!isValidPhone(order.phone)) {
-    errors.phone = 'phone number not vaild try again ........';
+    errors.phone = 'phone number not vaild try again';
     return errors;
   }
   const newOrder = await createOrder(order);
+  console.log(newOrder);
   store.dispatch(clearCart());
   return redirect(`/order/${newOrder.id}`);
 };
